@@ -1,34 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>EduGenie</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EduGenie - AI Learning Assistant</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 60px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .question-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3730a3;
+        }
+
+        .answer-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        #answer {
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>🎓 EduGenie</h1>
+    <div class="container">
 
-    <p>Ask anything and learn with Gemini!</p>
+        <h1>🎓 EduGenie</h1>
 
-    <input type="text" id="question" placeholder="Ask your question...">
+        <p class="subtitle">
+            Ask anything and learn with Gemini AI!
+        </p>
 
-    <button onclick="askQuestion()">Ask</button>
+        <div class="question-box">
 
-    <h2>Answer:</h2>
-    <p id="answer"></p>
+            <input
+                type="text"
+                id="question"
+                placeholder="Ask your question..."
+            >
+
+            <button onclick="askQuestion()">
+                Ask
+            </button>
+
+        </div>
+
+        <div class="answer-box">
+
+            <h2>🤖 Answer</h2>
+
+            <p id="answer">
+                Your answer will appear here...
+            </p>
+
+        </div>
+
+    </div>
 
     <script>
-        async function askQuestion() {
-            const question = document.getElementById("question").value;
+async function askQuestion() {
+    const question = document.getElementById("question").value;
+    const answer = document.getElementById("answer");
 
-            const response = await fetch(
-                `/ask?question=${encodeURIComponent(question)}`
-            );
+    if (!question.trim()) {
+        answer.innerText = "Please enter a question.";
+        return;
+    }
 
-            const data = await response.json();
+    answer.innerText = "🤖 Thinking...";
 
-            document.getElementById("answer").innerText = data.answer;
-        }
-    </script>
+    try {
+        const response = await fetch(
+            `/ask?question=${encodeURIComponent(question)}`
+        );
+
+        const data = await response.json();
+
+        answer.innerText = data.answer;
+
+    } catch (error) {
+        answer.innerText = "Something went wrong. Please try again.";
+    }
+}
+</script>
 
 </body>
+
 </html>

@@ -27,12 +27,19 @@ def home():
 # Ask Gemini
 @app.get("/ask")
 def ask(question: str):
-    response = client.models.generate_content(
-        model="gemini-3.8-flash",
-        contents=question
-    )
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=question
+        )
 
-    return {
-        "question": question,
-        "answer": response.text
-    }
+        return {
+            "question": question,
+            "answer": response.text
+        }
+
+    except Exception as e:
+        return {
+            "question": question,
+            "answer": "Gemini API quota exceeded. Please try again later."
+        }
