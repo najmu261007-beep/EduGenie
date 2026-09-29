@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EduGenie</title>
+</head>
+<body>
+
+    <h1>🎓 EduGenie</h1>
+
+    <p>Ask anything and learn with Gemini!</p>
+
+    <input type="text" id="question" placeholder="Ask your question...">
+
+    <button onclick="askQuestion()">Ask</button>
+
+    <h2>Answer:</h2>
+    <p id="answer"></p>
+
+    <script>
+        async function askQuestion() {
+            const question = document.getElementById("question").value;
+
+            const response = await fetch(
+                `/ask?question=${encodeURIComponent(question)}`
+            );
+
+            const data = await response.json();
+
+            document.getElementById("answer").innerText = data.answer;
+        }
+    </script>
+
+</body>
+</html>
